@@ -92,26 +92,6 @@
       ]).catch(function(e){ console.log('[SG] click error:', e.message); });
     }
 
-    /* 토스트 */
-    var toastTimer;
-    function showToast(title, msg) {
-      var el = document.getElementById('sg-toast');
-      if (!el) {
-        el = document.createElement('div');
-        el.id = 'sg-toast';
-        el.style.cssText = 'position:fixed;top:20px;right:20px;background:rgba(20,20,22,.93);color:#e8e8ea;font-family:"Apple SD Gothic Neo","Malgun Gothic",sans-serif;font-size:13px;padding:10px 16px;border-radius:8px;border-left:3px solid #a8e6cf;box-shadow:0 4px 16px rgba(0,0,0,.4);opacity:0;transform:translateY(-6px);transition:opacity .25s,transform .25s;pointer-events:none;z-index:99999;max-width:260px;line-height:1.6';
-        document.body.appendChild(el);
-      }
-      el.innerHTML = '<b style="color:#a8e6cf">' + title + '</b><br>' + msg;
-      el.style.opacity = '1';
-      el.style.transform = 'translateY(0)';
-      clearTimeout(toastTimer);
-      toastTimer = setTimeout(function() {
-        el.style.opacity = '0';
-        el.style.transform = 'translateY(-6px)';
-      }, 2400);
-    }
-
     function getTitle(img) {
       return (img.alt && img.alt.trim()) ? img.alt.trim()
         : img.src.split('/').pop().replace(/\.[^.]+$/, '');
@@ -123,10 +103,7 @@
         img._sgBound = true;
         img.addEventListener('click', function() {
           var title = getTitle(img);
-          showToast(title, '클릭 기록 중...');
-          recordClick(title, uid, source).then(function() {
-            showToast(title, '기록됐어요 ✓');
-          });
+          recordClick(title, uid, source);
         }, true);
       });
     }
